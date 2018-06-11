@@ -14,6 +14,9 @@ import com.study.chang.dagger2applicationdemo.entity.AppBean;
 
 import javax.inject.Inject;
 
+/**
+ * Subcomponent
+ */
 public class MainActivity extends AppCompatActivity {
 
     /*
