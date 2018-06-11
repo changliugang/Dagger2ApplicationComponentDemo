@@ -14,6 +14,9 @@ import com.study.chang.dagger2applicationdemo.entity.AppBean;
 
 import javax.inject.Inject;
 
+/**
+ * 使用dependencies属性实现继承注入
+ */
 public class MainActivity extends AppCompatActivity {
 
     /*
@@ -29,6 +32,19 @@ public class MainActivity extends AppCompatActivity {
             分析：
                 ActivityBean对象在Activity中和OtherClass中分别注入了两次，所以这两次注入是独立的，它们注
                 入的ActivityBean对象是不同的。
+     */
+
+
+    /*
+        dependencies与Subcomponent注入方式的区别:
+        1、dependencies方式中，我们最终调用的是ActivityComponent对象中的inject()方法，而Subcomponent方
+           式中，我们最终调用的是ApplicationComponent的inject()方法。
+        2、dependencies中Component强调的是在子类Component依赖于某个父类Component（子类为主角），而
+           Subcomponent中强调的则是在父类Component中提供某个子类的Component（父类为主角）。
+
+        那么该如何选择这两种继承方式呢？
+        dependencies方式让Component之间更加独立，结构更加清晰，也更利于解耦。所以最好使用dependencies方式，
+        当然Subcomponent注入方式也是需要了解一下，毕竟见到了Subcomponent不知道是做什么的就尴尬了。
      */
 
     @Inject
