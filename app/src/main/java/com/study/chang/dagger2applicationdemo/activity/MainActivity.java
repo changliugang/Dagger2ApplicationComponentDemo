@@ -8,14 +8,13 @@ import com.study.chang.dagger2applicationdemo.AppApplication;
 import com.study.chang.dagger2applicationdemo.R;
 import com.study.chang.dagger2applicationdemo.component.ActivityComponent;
 import com.study.chang.dagger2applicationdemo.component.ApplicationComponent;
-import com.study.chang.dagger2applicationdemo.component.DaggerActivityComponent;
 import com.study.chang.dagger2applicationdemo.entity.ActivityBean;
 import com.study.chang.dagger2applicationdemo.entity.AppBean;
 
 import javax.inject.Inject;
 
 /**
- * Subcomponent
+ * 使用Subcomponent的方式进行继承注入，和主分支使用dependencies属性实现继承注入的结果是一致的
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -47,11 +46,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppApplication appApplication = (AppApplication) getApplication();
-        ApplicationComponent applicationComponent = appApplication.getApplicationComponent();
-        ActivityComponent activityComponent = DaggerActivityComponent.builder()
-                .applicationComponent(applicationComponent).build();
-        activityComponent.inject(this);
+
+        getActivityComponent().inject(this);
 
         Loglg.d(mAppBean1);
         Loglg.d(mAppBean2);
@@ -59,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
 
         OtherClass otherClass = new OtherClass();
 
+    }
+
+    /**
+     * 获取 ActivityComponent
+     *
+     * @return {@link ActivityComponent}
+     */
+    private ActivityComponent getActivityComponent() {
+        AppApplication appApplication = (AppApplication) getApplication();
+        ApplicationComponent applicationComponent = appApplication.getApplicationComponent();
+        // 主要是这里的获取ActivityComponent的方式改变了
+        return applicationComponent.activityComponent();
     }
 
     /**
@@ -77,11 +85,8 @@ public class MainActivity extends AppCompatActivity {
         ActivityBean mActivityBean;
 
         public OtherClass() {
-            AppApplication appApplication = (AppApplication) getApplication();
-            ApplicationComponent applicationComponent = appApplication.getApplicationComponent();
-            ActivityComponent activityComponent = DaggerActivityComponent.builder()
-                    .applicationComponent(applicationComponent).build();
-            activityComponent.inject(this);
+
+            getActivityComponent().inject(this);
 
             Loglg.d(mAppBean1);
             Loglg.d(mAppBean2);

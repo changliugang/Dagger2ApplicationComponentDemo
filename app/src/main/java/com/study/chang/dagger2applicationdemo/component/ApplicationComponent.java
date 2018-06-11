@@ -30,4 +30,6 @@ public interface ApplicationComponent {
      * @return {@link AppBean}
      */
     AppBean providerAppBean();
+
+    ActivityComponent activityComponent();
 }
